@@ -1,0 +1,115 @@
+<div class="user-info">
+  <h2 class="user-info__title">User Information Table</h2>
+  <div class="user-info__table-container">
+    <div class="user-info__table__filter">
+      <div class="user-info__table__filter__serach-container">
+        <nz-input-group [nzSuffix]="suffixIconSearch">
+          <input
+            type="text"
+            nz-input
+            placeholder="search ...."
+            [(ngModel)]="searchKeywords"
+          />
+        </nz-input-group>
+        <ng-template #suffixIconSearch>
+          <i nz-icon nzType="search"></i>
+        </ng-template>
+      </div>
+    </div>
+    <div *ngIf="usersInfo" class="user-info__table">
+      <nz-table #sortTable>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>User Name</th>
+            <th>Email</th>
+            <th>City</th>
+            <th>Phone</th>
+            <th>Website</th>
+            <th>Company</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let user of usersInfo | searchFilter:searchKeywords"
+            [attr.data-key]="user.id"
+          >
+            <td>{{ user.name }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.address.city }}</td>
+            <td>{{ user.phone }}</td>
+            <td>{{ user.website }}</td>
+            <td>{{ user.company.name }}</td>
+            <td>
+              <button
+                nz-button
+                nzType="primary"
+                (click)="handleClickOnShowMapBtn(user.id)"
+              >
+                show on map
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </div>
+</div>
+<div class="user-info__modal">
+  <nz-modal
+    [(nzVisible)]="isVisibleModal"
+    nzTitle="The detail of user address"
+    [nzContent]="modalContent"
+    [nzFooter]="modalFooter"
+    (nzOnCancel)="handleClickOnCloseModal()"
+  >
+    <ng-template #modalContent>
+      <div class="user-info__modal__map-container">
+        <nz-spin nzSimple *ngIf="isLoading"></nz-spin>
+        <div class="user-info__modal__map" id="map"></div>
+      </div>
+    </ng-template>
+    <ng-template #modalFooter>
+      <span>Modal Footer :)</span>
+    </ng-template>
+  </nz-modal>
+</div>
+
+<div style="display: none">
+  <nz-table #fixedTable [nzScroll]="{ x: '1150px', y: '240px' }">
+    <thead>
+      <tr>
+        <th nzLeft>Full Name</th>
+        <th nzLeft>Age</th>
+        <th>Column 1</th>
+        <th>Column 2</th>
+        <th>Column 3</th>
+        <th>Column 4</th>
+        <th>Column 5</th>
+        <th>Column 6</th>
+        <th>Column 7</th>
+        <th>Column 8</th>
+        <th nzRight>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td nzLeft>retert</td>
+        <td nzLeft>ertert</td>
+        <td>sdfsdfsdfsdfsdfsdf</td>
+        <td>sdfsdfsdfsdfsdfsdf</td>
+        <td>sdfsdfsdfsdfsdfsdf</td>
+        <td>sdfsdfsdfsdfsdfsdf</td>
+        <td>sdfsdfsdfsdfsdfsdf</td>
+        <td>sdfsdfsdfsdfsdfsdf</td>
+        <td>sdfsdfsdfsdfsdfsdf</td>
+        <td>sdfsdfsdfsdfsdfsdf</td>
+        <td nzRight>
+          <a>action</a>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>
